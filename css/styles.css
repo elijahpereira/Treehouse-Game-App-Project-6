@@ -119,6 +119,12 @@ button {
   font-size: var(--font-size-medium);
 }
 
+.btn:hover{
+  cursor: pointer;
+  background: lightgrey;
+  transition-duration: .3s;
+}
+
 /* Overlay */
 
 #overlay {
