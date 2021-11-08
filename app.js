@@ -49,7 +49,7 @@ function addPhraseToDisplay(arr){
 function checkLetter(buttonClicked){
     //get all elements with class "letter"
     //loop over letters and check for matches
-    for (i=0; i< phraseArray.length; i++){
+    for (let i=0; i< phraseArray.length; i++){
         let targetLetter = phraseArray[i];
         //if there's a match
         //add "show" class to li
@@ -62,6 +62,8 @@ function checkLetter(buttonClicked){
 }}
 
 //8. add an event listener to the keyboard.
+
+// for ( )
 // button.addEventListener('click',(e) => {
 //     e.currentTarget.style.visibility = 'hidden';
 //   console.log(e.currentTarget);
