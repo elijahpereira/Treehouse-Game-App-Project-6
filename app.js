@@ -1,3 +1,4 @@
+const start = document.querySelector('.start');
 const qwertyHTML = document.querySelector('#qwerty');
 const startBtn = document.querySelector('.btn__reset');
 const phraseUL = document.querySelector('#phrase ul');
@@ -14,7 +15,6 @@ let phraseArray = '';
 
 //3. hides the start screen overlay
 startBtn.addEventListener('click', () =>{
-    var start = document.querySelector('.start');
     start.style.display = "none";
     const inPhraseArray = getRandomPhraseAsArray(phrases);
     phraseArray = inPhraseArray;
@@ -46,7 +46,7 @@ function addPhraseToDisplay(arr){
         if(splitChar == ' '){
             makeLI.className = "space";
         } else { 
-            makeLI.className = "letter";
+            makeLI.className = "letters letter";
         }
         phraseUL.append(makeLI);
 }}
@@ -76,6 +76,7 @@ function checkLetter(button){
 //8. add an event listener to the keyboard.
 qwerty.addEventListener('click',(e) => {
     let letterFound = checkLetter(e.target);
+    const hearts = document.querySelectorAll('.tries img');
     //when letter is picked add the “chosen” class to that button
     //set “disabled” attribute to true
     //pass the button to the checkLetter function
@@ -83,21 +84,40 @@ qwerty.addEventListener('click',(e) => {
     if (e.target.tagName === 'BUTTON'){
         e.target.className = 'chosen';
         e.target.disabled = true;
-        letterFound;
         //9. count the missed guesses in the game.
         //write a statement to check the value of the letterFound variable.
         //if the value is null, remove one of the tries from the scoreboard
         //when you remove a try from the scoreboard ,increase the missed count by 1
         //change a liveHeart.png image to a lostHeart.png image
-        if (letterFound === null){
-            scoreboardUL.removeChild(scoreboardUL.children[missed]);
-            createLI.classList = "tries";
-            createIMG.src = "images/lostHeart.png";
-            createIMG.style.height = '35px';
-            createIMG.style.width = '30px';
-            createLI.appendChild(createIMG); 
-            scoreboardUL.insertBefore(createLI, scoreboardUL.children[missed]);
-            missed++; 
+        if (e.target.tagName === 'BUTTON') {
+            e.target.className = 'chosen';
+            e.target.disabled = true;
+            if (letterFound === null) {
+              hearts[missed].src = 'images/lostHeart.png';
+              missed++;
+            }
         }
+        //10. create a checkWin function.
+        //when letter is guessed check if game is won or lost
+        //if the number of letters with class “show” is equal to the number of letters with class “letters”
+        //if they’re equal, show the overlay screen with the “win” class and appropriate text
+        //if the number of misses is equal to or greater than 5, show the overlay screen with the “lose” class and appropriate text.
+        function checkWin(){
+            const shownLetters = document.getElementsByClassName('show').length;
+            const phraseLetters = document.getElementsByClassName('letters').length;
+            if(shownLetters === phraseLetters){
+                start.className = "win";
+                start.firstElementChild.textContent = "You Win!";
+                start.children[1].style.display = "none";
+                start.style.display = "flex";
+            }
+            if(missed >= 5){
+                start.className = "lose";
+                start.firstElementChild.textContent = "You Lose";
+                start.children[1].style.display = "none";
+                start.style.display = "flex";
+            }
+        }
+        checkWin();
     }
 });
